@@ -84,7 +84,7 @@ if (( $(echo "$free_disk_space < 31.5" | bc -l) )); then
     met_requirement='NO'
 fi
 
-if (( met_requirement == 'NO' )); then
+if (( $met_requirement == 'NO' )); then
     echo "System requrements not met! Make sure to install sufficient hardware before using the product!"
     exit 1
 else
