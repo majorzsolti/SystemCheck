@@ -31,9 +31,9 @@ cpu_cores=$(lscpu | awk '/^CPU\(s\):/{print $2}')
 #avx 
 # If AVX is not among the CPU flags in proc/cpuinfo it will result a 0
 avx_support=$(grep -o avx /proc/cpuinfo | wc -l)
-avx_support_text= "YES"
+avx_support_text='YES'
 if (( $(grep -o avx /proc/cpuinfo | wc -l) == 0 )); then
-    avx_support_text= "NO"
+    avx_support_text='NO'
 fi
 echo $avx_support_text
 #RAM 
