@@ -40,7 +40,7 @@ fi
 # echo $avx_support_text
 #RAM 
 #The total RAM result is in MB, so we need to convert it to GB 
-total_ram=$(free -m | awk '/^Mem:/{print $2/1024+0.5}')
+total_ram=$(free -m | awk '/^Mem:/{print $2/1024}')
 echo $total_ram | awk '{print int($1+0.5)}'
 # total_ram_rounded=$($total_ram | awk '{print int($1+0.5)}')
 echo $total_ram_rounded
@@ -50,7 +50,7 @@ echo "System specification"
 echo "Ubuntu version        $ubuntu_version"
 echo "vCPU cores            $cpu_cores"
 echo "AVX support           $avx_support_text"
-echo "RAM                   $total_ram"
+echo "RAM                   "$total_ram | awk '{print int($1+0.5)}'
 echo "Free Disk Space       $free_disk_space" 
 
 ubuntu_version=$(lsb_release -rs)
