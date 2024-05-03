@@ -36,11 +36,11 @@ avx_support_text='YES'
 if (( $(grep -o avx /proc/cpuinfo | wc -l) == 0 )); then
     avx_support_text='NO'
 fi
-echo $avx_support_text
+# echo $avx_support_text
 #RAM 
 #The total RAM result is in MB, so we need to convert it to GB 
 total_ram=$(free -m | awk '/^Mem:/{print $2/1024}')
-total_ram_rounded=$($total_ram | awk '{print int($1+0.5)}')
+total_ram_rounded=$total_ram | awk '{print int($1+0.5)}'
 echo $total_ram_rounded
 free_disk_space=$(df -BM --output=avail / | sed '1d;s/[^0-9]*//g')
 
