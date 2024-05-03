@@ -15,7 +15,7 @@
 #   Print a final verdict at the end: PASSED or FAILED (if we had at least one missing requirement)
 
 # Check for Ubuntu 20.04 LTS
-exho "Checnking if system meets minimum requirements"
+echo "Checking if system meets minimum requirements"
 echo " " 
 
 echo "System requirements"
@@ -63,25 +63,25 @@ echo " "
 met_requirement='YES'
 #Ubuntu version
 if [[ "$ubuntu_version" != "20.04" ]]; then
-    echo "Error: This script requires Ubuntu 20.04 LTS ('Focal Fossa')."
+    echo "Failed: This script requires Ubuntu 20.04 LTS ('Focal Fossa')."
     met_requirement='NO'
 fi
 
 # CPU cores and AVX support
 if (( cpu_cores < 8 || avx_support == 0 )); then
-    echo "Error: This script requires at least 8 vCPUs with AVX support."
+    echo "Failed: This script requires at least 8 vCPUs with AVX support."
     met_requirement='NO'
 fi
 
 # RAM
 if (( $(echo "$total_ram < 15.5" | bc -l) )); then
-    echo "Error: This script requires at least 16 GB of RAM."
+    echo "Failed: This script requires at least 16 GB of RAM."
     met_requirement='NO'
 fi
 
 # Free Disk Space
 if (( $(echo "$free_disk_space < 31.5" | bc -l) )); then
-    echo "Error: This script requires at least 32 GB of free disk space."
+    echo "Failed: This script requires at least 32 GB of free disk space."
     met_requirement='NO'
 fi
 
