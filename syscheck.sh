@@ -22,13 +22,15 @@ echo "System requirements"
 echo "Ubuntu version        20.04"
 echo "vCPU cores            8"
 echo "AVX support           YES"
-echo "RAM                   16GB"
-echo "Free Disk Space       32Gb" 
+echo "RAM                   16 GB"
+echo "Free Disk Space       32 Gb" 
 echo " " 
 
-#declaring variables
+#declaring main variables
 ubuntu_version=$(lsb_release -rs)
+
 cpu_cores=$(lscpu | awk '/^CPU\(s\):/{print $2}')
+
 #avx 
 # If AVX is not among the CPU flags in proc/cpuinfo it will result a 0
 # AVX variable to be converted to readable text (Yes/no)
@@ -38,21 +40,22 @@ if (( $(grep -o avx /proc/cpuinfo | wc -l) == 0 )); then
     avx_support_text='NO'
 fi
 # echo $avx_support_text
+
 #RAM 
-#The total RAM result is in MB, so we need to convert it to GB 
-# total_ram=$(free -m | awk '/^Mem:/{print $2/1024}')
+#The total RAM result is in MB, so we need to convert it to GB and also round it
 total_ram=$(free -m | awk '/^Mem:/{printf "%.1f", $2/1024}')
-# echo $total_ram | awk '{print int($1+0.5)}'
-# total_ram_rounded=$($total_ram | awk '{print int($1+0.5)}')
-# echo $total_ram_rounded
-free_disk_space=$(df -BM --output=avail / | sed '1d;s/[^0-9]*//g')
+# echo $total_ram
+
+#free disk space
+# free_disk_space=$(df -BM --output=avail / | sed '1d;s/[^0-9]*//g')
+free_disk_space=$(df -BM --output=avail / | sed '1d;s/[^0-9]*//g' | awk '{printf "%.1f", $1/1024}')
 
 echo "System specification"
 echo "Ubuntu version        $ubuntu_version"
 echo "vCPU cores            $cpu_cores"
 echo "AVX support           $avx_support_text"
-echo "RAM                   $total_ram"
-echo "Free Disk Space       $free_disk_space" 
+echo "RAM                   $total_ram GB"
+echo "Free Disk Space       $free_disk_space GB" 
 
 ubuntu_version=$(lsb_release -rs)
 ubuntu_passed="YES"
