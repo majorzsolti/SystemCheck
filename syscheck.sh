@@ -57,48 +57,41 @@ echo "AVX support           $avx_support_text"
 echo "RAM                   $total_ram GB"
 echo "Free Disk Space       $free_disk_space GB" 
 
-ubuntu_version=$(lsb_release -rs)
-ubuntu_passed="YES"
-if [[ "$ubuntu_version" != "20.04" ]]; then
-    ubuntu_passed="NO"
-fi
-
-echo $ubuntu_version
-echo $ubuntu_passed
-
-
-
-echo "                  Requirements    System specification    Passed"
-echo "Ubuntu version    20.04           $ubuntu_version         $ubuntu_passed"
-
-ubuntu_version=$(lsb_release -rs)
-echo $ubuntu_version
+# Print out detailed results to the user
+#main control variable
+met_requirement='YES'
+#Ubuntu version
 if [[ "$ubuntu_version" != "20.04" ]]; then
     echo "Error: This script requires Ubuntu 20.04 LTS ('Focal Fossa')."
+    met_requirement='NO'
 fi
 
-# Check for CPU cores and AVX support
-cpu_cores=$(lscpu | awk '/^CPU\(s\):/{print $2}')
-echo $cpu_cores
-avx_support=$(grep -o avx /proc/cpuinfo | wc -l)
-echo $avx_support
+# CPU cores and AVX support
 if (( cpu_cores < 8 || avx_support == 0 )); then
     echo "Error: This script requires at least 8 vCPUs with AVX support."
+    met_requirement='NO'
 fi
 
-# Check for RAM
+# RAM
 total_ram=$(free -m | awk '/^Mem:/{print $2}')
 echo $total_ram
-if (( total_ram < 16000 )); then
+if (( total_ram < 15.5 )); then
     echo "Error: This script requires at least 16 GB of RAM."
+    met_requirement='NO'
 fi
 
-# Check for Free Disk Space
+# Free Disk Space
 free_disk_space=$(df -BM --output=avail / | sed '1d;s/[^0-9]*//g')
 echo $free_disk_space
-if (( free_disk_space < 32000 )); then
+if (( free_disk_space < 31.5 )); then
     echo "Error: This script requires at least 32 GB of free disk space."
+    met_requirement='NO'
 fi
 
-echo "System requirements are met. You're good to go!"
-exit 0
+if (( met_requirement == 'NO' )); then
+    echo "System requrements not met! Make sure to install sufficient hardware before using the product!"
+    exit 1
+else
+    echo "System requirements are met. You're good to go!"
+    exit 0
+fi
