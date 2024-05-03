@@ -18,18 +18,20 @@
 exho "Checnking if system meets minimum requirements"
 echo " " 
 
-ubuntu_version_minimum=$("20.04")
 ubuntu_version=$(lsb_release -rs)
 ubuntu_passed="YES"
 if [[ "$ubuntu_version" != "20.04" ]]; then
     ubuntu_passed="NO"
 fi
 
-echo $ubuntu_version_minimum
 echo $ubuntu_version
 echo $ubuntu_passed
 
-echo "              Minimum requirements    System specification    Passed"
+
+
+echo "                  Requirements    System specification    Passed"
+echo "Ubuntu version    20.04           $ubuntu_version         $ubuntu_passed"
+
 ubuntu_version=$(lsb_release -rs)
 echo $ubuntu_version
 if [[ "$ubuntu_version" != "20.04" ]]; then
