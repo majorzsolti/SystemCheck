@@ -84,10 +84,11 @@ if (( $(echo "$free_disk_space < 31.5" | bc -l) )); then
     met_requirement='NO'
 fi
 
-if (( "$met_requirement" == 'NO' )); then
-    echo "System requrements not met! Make sure to install sufficient hardware before using the product!"
+if [ "$met_requirement" = 'NO' ]; then
+    echo "One or more system requirements are not met. Exiting."
     exit 1
-else
-    echo "System requirements are met. You're good to go!"
-    exit 0
 fi
+
+# If all requirements are met, inform the user
+echo "System requirements are met. You're good to go!"
+exit 0
