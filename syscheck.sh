@@ -44,14 +44,14 @@ fi
 total_ram=$(free -m | awk '/^Mem:/{printf "%.1f", $2/1024}')
 # echo $total_ram | awk '{print int($1+0.5)}'
 # total_ram_rounded=$($total_ram | awk '{print int($1+0.5)}')
-echo $total_ram_rounded
+# echo $total_ram_rounded
 free_disk_space=$(df -BM --output=avail / | sed '1d;s/[^0-9]*//g')
 
 echo "System specification"
 echo "Ubuntu version        $ubuntu_version"
 echo "vCPU cores            $cpu_cores"
 echo "AVX support           $avx_support_text"
-echo "RAM                   "$total_ram | awk '{print int($1+0.5)}'
+echo "RAM                   $total_ram"
 echo "Free Disk Space       $free_disk_space" 
 
 ubuntu_version=$(lsb_release -rs)
