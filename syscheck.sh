@@ -55,7 +55,8 @@ echo "Ubuntu version        $ubuntu_version"
 echo "vCPU cores            $cpu_cores"
 echo "AVX support           $avx_support_text"
 echo "RAM                   $total_ram GB"
-echo "Free Disk Space       $free_disk_space GB" 
+echo "Free Disk Space       $free_disk_space GB"
+echo " "  
 
 # Print out detailed results to the user
 #main control variable
@@ -84,11 +85,17 @@ if (( $(echo "$free_disk_space < 31.5" | bc -l) )); then
     met_requirement='NO'
 fi
 
+#At the end we need to check if we have an insufficient system parameter 
+#If we do we need to inform the user and exit the script
 if [ "$met_requirement" = 'NO' ]; then
-    echo "One or more system requirements are not met. Exiting."
+    echo " " 
+    echo "Requirement check FAILED!"
+    echo "One or more system requirements are not met."
     exit 1
 fi
 
 # If all requirements are met, inform the user
+echo " " 
+echo "Requirement check PASSED!"
 echo "System requirements are met. You're good to go!"
 exit 0
