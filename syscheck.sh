@@ -73,13 +73,13 @@ if (( cpu_cores < 8 || avx_support == 0 )); then
 fi
 
 # RAM
-if (( total_ram < 15.5 )); then
+if (( total_ram < 15,5 )); then
     echo "Error: This script requires at least 16 GB of RAM."
     met_requirement='NO'
 fi
 
 # Free Disk Space
-if (( free_disk_space < 31.5 )); then
+if (( free_disk_space < 31,5 )); then
     echo "Error: This script requires at least 32 GB of free disk space."
     met_requirement='NO'
 fi
