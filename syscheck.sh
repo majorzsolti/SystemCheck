@@ -29,8 +29,18 @@ echo "Free Disk Space       32Gb"
 ubuntu_version=$(lsb_release -rs)
 cpu_cores=$(lscpu | awk '/^CPU\(s\):/{print $2}')
 #avx 
+# If AVX is not among the CPU flags in proc/cpuinfo it will result a 0
 avx_support=$(grep -o avx /proc/cpuinfo | wc -l)
-total_ram=$(free -m | awk '/^Mem:/{print $2}')
+if (( avx_support == 0 )); then
+    $avx_support = "NO"
+else
+    $avx_support = "YES"
+fi
+#RAM 
+#The total RAM result is in MB, so we need to convert it to GB 
+total_ram=$(free -m | awk '/^Mem:/{print $2/1024}')
+total_ram_rounded=$(total_ram <<<"scale=1; (10*$lineas/($dias*24)+0.5)/10")
+echo $total_ram_rounded
 free_disk_space=$(df -BM --output=avail / | sed '1d;s/[^0-9]*//g')
 
 echo "System specification"
