@@ -18,6 +18,28 @@
 exho "Checnking if system meets minimum requirements"
 echo " " 
 
+echo "System requirements"
+echo "Ubuntu version        20.04"
+echo "vCPU cores            8"
+echo "AVX support           YES"
+echo "RAM                   16GB"
+echo "Free Disk Space       32Gb" 
+
+#declaring variables
+ubuntu_version=$(lsb_release -rs)
+cpu_cores=$(lscpu | awk '/^CPU\(s\):/{print $2}')
+#avx 
+avx_support=$(grep -o avx /proc/cpuinfo | wc -l)
+total_ram=$(free -m | awk '/^Mem:/{print $2}')
+free_disk_space=$(df -BM --output=avail / | sed '1d;s/[^0-9]*//g')
+
+echo "System specification"
+echo "Ubuntu version        $ubuntu_version"
+echo "vCPU cores            $cpu_cores"
+echo "AVX support           $avx_support"
+echo "RAM                   $total_ram"
+echo "Free Disk Space       $free_disk_space" 
+
 ubuntu_version=$(lsb_release -rs)
 ubuntu_passed="YES"
 if [[ "$ubuntu_version" != "20.04" ]]; then
